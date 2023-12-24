@@ -88,7 +88,7 @@ class AuthRepository {
           uid: uid,
           profilePic: photoUrl,
           isOnline: true,
-          phoneNumber: auth.currentUser!.uid,
+          phoneNumber: auth.currentUser!.phoneNumber!,
           groupId: []);
 
       await firestore.collection('users').doc(uid).set(user.toMap());
@@ -99,5 +99,13 @@ class AuthRepository {
     } catch (e) {
       showSnackBar(context: context, content: e.toString());
     }
+  }
+
+  Stream<UserModel> userData(String userId) {
+    return firestore
+        .collection('users')
+        .doc(userId)
+        .snapshots()
+        .map((event) => UserModel.fromMap(event.data()!));
   }
 }

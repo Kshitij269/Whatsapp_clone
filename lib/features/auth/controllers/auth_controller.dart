@@ -17,8 +17,10 @@ final userDataAuthProvider = FutureProvider((ref) {
 class AuthController {
   final AuthRepository authRepository;
   final ProviderRef ref;
-
-  AuthController({required this.ref, required this.authRepository});
+  AuthController({
+    required this.authRepository,
+    required this.ref,
+  });
 
   Future<UserModel?> getUserData() async {
     UserModel? user = await authRepository.getCurrentUserData();
@@ -46,4 +48,10 @@ class AuthController {
       context: context,
     );
   }
+
+  Stream<UserModel> userDataById(String userId) {
+    return authRepository.userData(userId);
+  }
+
+
 }
